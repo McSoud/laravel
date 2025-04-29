@@ -1,0 +1,42 @@
+{
+  "name": "@mcsoud/laravel",
+  "version": "1.1.0",
+  "description": "Types for laravel responses and helper query",
+  "private": false,
+  "author": {
+    "name": "McSoud",
+    "email": "mcsoud@gmail.com",
+    "url": "https://github.com/McSoud"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/McSoud/laravel.git"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "main": "index.ts",
+  "exports": {
+    ".": {
+      "import": "./types/index.d.ts",
+      "require": "./types/index.d.cts"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcsoud",
+    "laravel",
+    "query"
+  ],
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "sonner": "^2.0.3"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^5.74.8",
+    "@types/react": "^19.1.2",
+    "axios": "^1.9.0"
+  }
+}
