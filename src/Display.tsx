@@ -1,4 +1,4 @@
-import { LaravelError, LaravelSuccess } from "./types/index";
+import { LaravelError, LaravelSuccess } from "./types";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { LaravelDisplay, LaravelProps } from "./types";

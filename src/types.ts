@@ -1,4 +1,6 @@
-import useLaravelQuery from "../Display";
+import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { ReactNode } from "react";
 
 type LaravelResponse<S = unknown, E = unknown> =
   | LaravelSuccess<S>
@@ -39,14 +41,26 @@ interface LaravelPagination<T = unknown> {
   total: number;
 }
 
-type TODO = any;
+interface LaravelProps<T, E> {
+  query: ReturnType<typeof useQuery<LaravelResponse<T, E>, unknown>>;
+  toastError?:
+    | string
+    | ((err: AxiosError<LaravelError<E>> | undefined) => string | ReactNode);
+  toastSuccess?: string | ((res: LaravelSuccess<T>) => string | ReactNode);
+}
+
+interface LaravelDisplay<T, E> {
+  success: ReactNode | ((data: T) => ReactNode);
+  loading?: ReactNode;
+  error?: ReactNode | ((err: AxiosError<LaravelError<E>>) => ReactNode);
+}
 
 export {
-  useLaravelQuery,
   type LaravelResponse,
   type LaravelSuccess,
   type LaravelError,
   type LaravelObject,
   type LaravelPagination,
-  type TODO,
+  type LaravelProps,
+  type LaravelDisplay,
 };
