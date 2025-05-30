@@ -31,43 +31,41 @@ export default function useLaravelQuery<T, E = unknown>({
   }
   const Display = ({ success, error, loading }: LaravelDisplay<T, E>) => {
     const { data, isLoading, isSuccess, error: err } = query;
+    const [loadingState, setLoadingState] = useState(isLoading);
+    const Tag = loading ? "div" : "p";
+    if (!isLoading) setTimeout(() => setLoadingState(true), 499);
     return (
-      <>
-        {isSuccess ? (
-          data?.success && typeof success === "function" ? (
-            success(data.data)
+      <div className="single-grid">
+        <div className="single-grid__item">
+          {!isLoading && isSuccess ? (
+            data?.success && typeof success === "function" ? (
+              success(data.data)
+            ) : (
+              typeof success
+            )
+          ) : error ? (
+            typeof error === "function" ? (
+              error(err as AxiosError<LaravelError<E>>)
+            ) : (
+              error
+            )
           ) : (
-            success
-          )
-        ) : error ? (
-          typeof error === "function" ? (
-            error(err as AxiosError<LaravelError<E>>)
-          ) : (
-            error
-          )
-        ) : (
-          <p>Something went wrong</p>
-        )}
-        <Loading state={isLoading} component={loading} />
-      </>
+            <p>Something went wrong</p>
+          )}
+        </div>
+        <div className="single-grid__item">
+          {loadingState && (
+            <Tag
+              className={`animate-fade-in${
+                !isLoading ? " animate-fade-out" : ""
+              }`}
+            >
+              {loading ?? "Loading..."}
+            </Tag>
+          )}
+        </div>
+      </div>
     );
   };
-  function Loading({
-    state = true,
-    component,
-  }: {
-    state: boolean;
-    component: LaravelDisplay<T, E>["loading"];
-  }) {
-    const [removed, setRemoved] = useState(!state);
-    if (!state) setTimeout(() => setRemoved(true), 499);
-    if (removed) return null;
-    const Tag = component ? "div" : "p";
-    return (
-      <Tag className={`animate-fade-in${!state ? " animate-fade-out" : ""}`}>
-        {component ?? "Loading..."}
-      </Tag>
-    );
-  }
   return Display;
 }
