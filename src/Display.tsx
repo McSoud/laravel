@@ -35,25 +35,26 @@ export default function useLaravelQuery<T, E = unknown>({
     const Tag = loading ? "div" : "p";
     if (!isLoading) setTimeout(() => setLoadingState(true), 499);
     return (
-      <div className="single-grid">
-        <div className="single-grid__item">
-          {!isLoading && isSuccess ? (
-            data?.success && typeof success === "function" ? (
-              success(data.data)
+      <div style={{ display: "grid", gridTemplateAreas: "a" }}>
+        <div style={{ gridArea: "a" }}>
+          {!isLoading &&
+            (isSuccess ? (
+              data?.success && typeof success === "function" ? (
+                success(data.data)
+              ) : (
+                typeof success
+              )
+            ) : error ? (
+              typeof error === "function" ? (
+                error(err as AxiosError<LaravelError<E>>)
+              ) : (
+                error
+              )
             ) : (
-              typeof success
-            )
-          ) : error ? (
-            typeof error === "function" ? (
-              error(err as AxiosError<LaravelError<E>>)
-            ) : (
-              error
-            )
-          ) : (
-            <p>Something went wrong</p>
-          )}
+              <p>Something went wrong</p>
+            ))}
         </div>
-        <div className="single-grid__item">
+        <div style={{ gridArea: "a" }}>
           {loadingState && (
             <Tag
               className={`animate-fade-in${
