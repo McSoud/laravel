@@ -2,6 +2,7 @@ import { LaravelError, LaravelSuccess } from "./types";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { LaravelDisplay, LaravelProps } from "./types";
+import { useState } from "react";
 
 export default function useLaravelQuery<T, E = unknown>({
   query,
@@ -29,19 +30,45 @@ export default function useLaravelQuery<T, E = unknown>({
     );
   }
   const Display = ({ success, error, loading }: LaravelDisplay<T, E>) => {
-    const { data, isPending, isSuccess, error: err } = query;
-    if (isPending) return loading ?? <p>Loading...</p>;
-    if (isSuccess && data?.success)
-      return typeof success === "function" ? success(data.data) : success;
-    return error ? (
-      typeof error === "function" ? (
-        error(err as AxiosError<LaravelError<E>>)
-      ) : (
-        error
-      )
-    ) : (
-      <p>Something went wrong</p>
+    const { data, isLoading, isSuccess, error: err } = query;
+    return (
+      <>
+        <Loading component={loading} state={isLoading} />
+        {isSuccess && data?.success && typeof success === "function"
+          ? success(data.data)
+          : success}
+        {isError && error ? (
+          typeof error === "function" ? (
+            error(err as AxiosError<LaravelError<E>>)
+          ) : (
+            error
+          )
+        ) : (
+          <p>Something went wrong</p>
+        )}
+      </>
     );
   };
+  function Loading({
+    state = true,
+    component,
+  }: {
+    state: boolean;
+    component: LaravelDisplay<T, E>["loading"];
+  }) {
+    const [removed, setRemoved] = useState(!state);
+    if (!state) setTimeout(() => setRemoved(true), 499);
+    if (removed) return null;
+    const Tag = component ? "div" : "p";
+    return (
+      <Tag
+        className={`z-10 animate-fade-in${
+          !state && " animate-loading-fade-out"
+        }`}
+      >
+        {component ?? "Loading..."}
+      </Tag>
+    );
+  }
   return Display;
 }
