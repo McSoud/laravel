@@ -33,11 +33,13 @@ export default function useLaravelQuery<T, E = unknown>({
     const { data, isLoading, isSuccess, error: err } = query;
     return (
       <>
-        <Loading component={loading} state={isLoading} />
-        {isSuccess && data?.success && typeof success === "function"
-          ? success(data.data)
-          : success}
-        {isError && error ? (
+        {isSuccess ? (
+          data?.success && typeof success === "function" ? (
+            success(data.data)
+          ) : (
+            success
+          )
+        ) : error ? (
           typeof error === "function" ? (
             error(err as AxiosError<LaravelError<E>>)
           ) : (
@@ -46,6 +48,7 @@ export default function useLaravelQuery<T, E = unknown>({
         ) : (
           <p>Something went wrong</p>
         )}
+        <Loading state={isLoading} component={loading} />
       </>
     );
   };
@@ -61,11 +64,7 @@ export default function useLaravelQuery<T, E = unknown>({
     if (removed) return null;
     const Tag = component ? "div" : "p";
     return (
-      <Tag
-        className={`z-10 animate-fade-in${
-          !state && " animate-loading-fade-out"
-        }`}
-      >
+      <Tag className={`animate-fade-in${!state ? " animate-fade-out" : ""}`}>
         {component ?? "Loading..."}
       </Tag>
     );
