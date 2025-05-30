@@ -50,7 +50,7 @@ interface LaravelProps<T, E> {
 }
 
 interface LaravelDisplay<T, E> {
-  success: ReactNode | ((data: T) => ReactNode);
+  success: (data: T) => ReactNode;
   loading?: ReactNode;
   error?: ReactNode | ((err: AxiosError<LaravelError<E>>) => ReactNode);
 }
