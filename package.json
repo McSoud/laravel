@@ -1,6 +1,6 @@
 {
   "name": "@mcsoud/laravel",
-  "version": "1.2.4",
+  "version": "1.2.5-0",
   "description": "Types for laravel responses and helper query",
   "private": false,
   "author": {
