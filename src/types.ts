@@ -30,6 +30,7 @@ interface LaravelPagination<T = unknown> {
   data: T;
   next_page_url: string | null;
   total_page: number;
+  prev_page_url: string | null;
 }
 
 interface LaravelProps<T, E> {
