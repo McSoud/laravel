@@ -1,7 +1,7 @@
 {
-  "name": "@mcsoud/laravel",
-  "version": "1.3.2",
-  "description": "Types for laravel responses and helper query",
+  "name": "@mcsoud/types",
+  "version": "1.0.0",
+  "description": "Types for laravel responses",
   "private": false,
   "author": {
     "name": "McSoud",
@@ -31,12 +31,12 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/**/*"
   ],
   "keywords": [
     "mcsoud",
-    "laravel",
-    "query"
+    "types",
+    "laravel"
   ],
   "peerDependencies": {
     "react": "^19.1.0",

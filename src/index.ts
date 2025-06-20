@@ -1,12 +1,42 @@
-import { LaravelProps } from "./types";
-import "./laravelOptions";
-import useLarQuery from "./Display";
-import options from "./laravelOptions";
+import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { ReactNode } from "react";
 
-export { options as laravelOptions };
+type LaravelResponse<S = unknown, E = unknown> =
+  | LaravelSuccess<S>
+  | LaravelError<E>
+  | undefined;
 
-export function useLaravelQuery<T, E = unknown>(args: LaravelProps<T, E>) {
-  return useLarQuery<T, E>(args);
+interface LaravelSuccess<T = unknown> {
+  success: true;
+  message: string;
+  data: T;
 }
 
-export * from "./types";
+interface LaravelError<T extends Array<string> | unknown = unknown> {
+  success: false;
+  message: string;
+  errors?: T extends Array<string> ? { [k in T[number]]: string[] } : T;
+}
+
+interface LaravelObject {
+  id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+interface LaravelPagination<T = unknown> {
+  current_page: number;
+  data: T;
+  next_page_url: string | null;
+  total_page: number;
+  prev_page_url: string | null;
+}
+
+export {
+  type LaravelResponse,
+  type LaravelSuccess,
+  type LaravelError,
+  type LaravelObject,
+  type LaravelPagination,
+};
