@@ -1,6 +1,6 @@
 {
   "name": "@mcsoud/types",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Types for laravel responses",
   "private": false,
   "author": {
